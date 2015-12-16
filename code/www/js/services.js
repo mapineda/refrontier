@@ -1,1 +1,1 @@
-services.js
+angular.module('refrontier.services', []);

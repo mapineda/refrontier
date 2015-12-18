@@ -37,10 +37,10 @@ Controller for the discover page
   $scope.sendFeedback = function (bool) {
 
     // set the current song to one of our three songs
-    var randomApartment = Math.round(Math.random() * ($scope.songs.length - 1));
+    var randomApartment = Math.round(Math.random() * ($scope.apartments.length - 1));
 
     // update current song in scope
-    $scope.currentApartment = angular.copy($scope.apartmentss[randomApartment]);
+    $scope.currentApartment = angular.copy($scope.apartments[randomApartment]);
 
   }
 

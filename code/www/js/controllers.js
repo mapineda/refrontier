@@ -13,7 +13,7 @@ Controller for the discover page
 //         "Address":"301 Brazos St
 // Austin, TX  78701",
         "image_small":"http://s3-media4.fl.yelpcdn.com/bphoto/QEbK7NE8sUnr4cbC6TUxqg/ls.jpg",
-        "image_large":"http://www.whitleyaustin.com/p/apartments/photo_tour_10657/austin-tx-78701/whitley-apartments-10657"
+        "image_large":"http://cdn11.g5search.com/assets/283943/huge-roof-top-terrace-and-swimming-pool-at-apartments-in-austin.jpg?1407280878"
      },
      {
         "name":"AMLI Downtown",
@@ -21,7 +21,7 @@ Controller for the discover page
         // "Address":"201 Lavaca St, Austin, TX 78701"
 
         "image_small":"http://www.amli.com/AMLIContent/Files/apartments/austin/300/apartment-interior/300-apartment-interior-living-room1.jpg.ashx??w=320&h=237",
-        "image_large":"https://www.google.com/maps/uv?hl=en&pb=!1s0x8644b508b0482a55:0xc97080422533015!2m5!2m2!1i80!2i80!3m1!2i100!3m1!7e1!4s//plus.google.com/photos/photo/105482590014692010934/6140125120869826146!5s+-+Google+Search"
+        "image_large":"http://www.benkendorfer-associates.com/_assets/img/work/multifamily/AmliDowntown-1.jpg"
      },
      {
         "name":"The Catherine",

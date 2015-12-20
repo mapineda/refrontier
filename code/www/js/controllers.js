@@ -4,7 +4,7 @@ angular.module('refrontier.controllers', ['ionic', 'refrontier.services'])
 /*
 Controller for the discover page
 */
-.controller('DiscoverCtrl', function($scope) {
+.controller('DiscoverCtrl', function($scope, $timeout) {
 	// adding first three apartments
 	  $scope.apartments = [
      {
@@ -34,14 +34,21 @@ Controller for the discover page
   ];
 
     // fired when we favorite / skip a song.
-  $scope.sendFeedback = function (bool) {
+ 	$scope.sendFeedback = function (bool) {
 
-    // set the current song to one of our three songs
-    var randomApartment = Math.round(Math.random() * ($scope.apartments.length - 1));
+    // set variable for the correct animation sequence
+    $scope.currentApartment.rated = bool;
+    $scope.currentApartment.hide = true;
 
-    // update current song in scope
-    $scope.currentApartment = angular.copy($scope.apartments[randomApartment]);
+    $timeout(function() {
+      // $timeout to allow animation to complete before changing to next song
+      // set the current song to one of our three songs
+      var randomApartment = Math.round(Math.random() * ($scope.apartments.length - 1));
 
+      // update current song in scope
+      $scope.currentApartment = angular.copy($scope.apartments[randomApartment]);
+
+    }, 250);
   }
 
 })

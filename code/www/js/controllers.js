@@ -33,8 +33,10 @@ Controller for the discover page
      }
   ];
 
+  $scope.currentApartment = angular.copy($scope.apartments[0]);
+
     // fired when we favorite / skip a song.
- 	$scope.sendFeedback = function (bool) {
+ 	$scope.sendFeedback = function(bool) {
 
     // set variable for the correct animation sequence
     $scope.currentApartment.rated = bool;

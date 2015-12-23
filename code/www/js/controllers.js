@@ -4,7 +4,7 @@ angular.module('refrontier.controllers', ['ionic', 'refrontier.services'])
 /*
 Controller for the discover page
 */
-.controller('DiscoverCtrl', function($scope, $timeout) {
+.controller('DiscoverCtrl', function($scope, $timeout, User) {
 	// adding first three apartments
 	  $scope.apartments = [
      {
@@ -35,6 +35,7 @@ Controller for the discover page
 
   $scope.currentApartment = angular.copy($scope.apartments[0]);
 
+  if (bool) User.addApartmentToFavorites($scope.currentApartment);
     // fired when we favorite / skip a song.
  	$scope.sendFeedback = function(bool) {
 
@@ -59,7 +60,12 @@ Controller for the discover page
 /*
 Controller for the favorites page
 */
-.controller('FavoritesCtrl', function($scope) {
+.controller('FavoritesCtrl', function($scope, User) {
+  $scope.favorites = User.favorites;
+
+  $scope.removeApartment = function(apartment, index) {
+    User.removeApartmentFromFavorites(apartment, index);
+  }
 
 })
 

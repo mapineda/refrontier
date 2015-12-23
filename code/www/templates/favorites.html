@@ -7,6 +7,10 @@
         <img ng-src="{{ apartment.image_small }}">
         <h2>{{ apartment.name }}</h2>
         <p>{{ apartment.description }}</p>
+        <ion-option-button class='button-assertive' ng-click='removeApartment(apartment, $index)'>
+        
+          <i class='ion-minus-circled'></i> 
+        </ion-option-button>
       </ion-item>
     </ion-list>
     

@@ -13,5 +13,11 @@ angular.module('refrontier.services', [])
     o.favorites.unshift(apartment);
   }
 
+  	o.removeApartmentFromFavorites = function(apartment, index){
+  		if (!apartment) return false;
+
+  		o.favorites.splice(index, 1);
+  	}
+
   return o;
 });

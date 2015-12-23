@@ -63,7 +63,10 @@ Controller for the favorites page
 .controller('FavoritesCtrl', function($scope, User) {
   $scope.favorites = User.favorites;
 
-
+  $scope.removeApartment = function(apartment, index) {
+//TODO loading indicator
+    User.removeApartmentFromFavorites(apartment, index);
+  }
 })
 
 

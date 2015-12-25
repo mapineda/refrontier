@@ -70,7 +70,7 @@ angular.module('refrontier', ['ionic', 'refrontier.controllers'])
   // url: 'http://localhost:3000'
 
   // Public Heroku server
-  url: 'https://ionic-refrontier.herokuapp.com'
+  url: 'https://refrontier.herokuapp.com'
 });
 
 

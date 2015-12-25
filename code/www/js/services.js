@@ -36,7 +36,13 @@ angular.module('refrontier.services', [])
 		});
 	}
 
-	o.nextApartment 
+	o.nextApartment = function(){
+		o.queue.shift();
+
+		if (o.queue.length <= 3){
+			o.getNextApartments();
+		}
+	}
 
 	return o;
 

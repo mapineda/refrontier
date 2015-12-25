@@ -18,13 +18,10 @@ Controller for the discover page
     $scope.currentApartment.rated = bool;
     $scope.currentApartment.hide = true;
 
-    $timeout(function() {
-      // $timeout to allow animation to complete before changing to next song
-      // set the current song to one of our three songs
-      var randomApartment = Math.round(Math.random() * ($scope.apartments.length - 1));
+    Recommendations.nextApartment();
 
-      // update current song in scope
-      $scope.currentApartment = angular.copy($scope.apartments[randomApartment]);
+    $timeout(function() {
+       $scope.currentApartment = Recommendations.queue[0];
 
     }, 250);
   }

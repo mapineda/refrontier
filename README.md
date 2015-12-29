@@ -1,8 +1,8 @@
-** Refrontier **
+## Refrontier ##
 
 UX Design Meets Apartment hunting
 
-* Tech Used *
+# Tech Used #
 
 HTML
 CSS
@@ -10,8 +10,8 @@ JS
 AngularJS
 Ionic
 
-* Getting Started *
+# Getting Started #
 
-* Contact *
+# Contact #
 
 hire@marcopineda.com

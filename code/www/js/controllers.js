@@ -4,10 +4,29 @@ angular.module('refrontier.controllers', ['ionic', 'refrontier.services'])
 /*
 Controller for the discover page
 */
-.controller('DiscoverCtrl', function($scope, $timeout, User, Recommendations) {
+.controller('DiscoverCtrl', function($scope, $timeout, $ionicLoading, User, Recommendations) {
+
+  var showLoading = function(){
+    $ionicLoading.show({
+      template: '<i class="ion-loading-c"></i>',
+      noBackdrop: true
+    })
+
+  }
+
+  var hideLoading = function(){
+    $ionicLoading.hide();
+  }
+// show loading icon when calling on server
+  showLoading();
+
   Recommendations.getNextApartments()
     .then(function(){
       $scope.currentApartment = Recommendations.queue[0];
+      Recommendations.playCurrentApartment();
+      
+// hide loading icon after recommendations icons are called
+      hideLoading();
     })
 
     // fired when we favorite / skip a song.

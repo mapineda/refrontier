@@ -9,7 +9,7 @@
       </div>
 
       <div class="item">
-        <h2>{{ currentApartment.name }}</h2>
+        <h2>{{ currentApartment.name }} <span ng-hide="currentApartment.loaded"><i class='ion-loading-c'></i></span></h2>
         <p>{{ currentApartment.description }}</p>
       </div>
 <!--       send feedback -->

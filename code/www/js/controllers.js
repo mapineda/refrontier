@@ -20,18 +20,18 @@ Controller for the discover page
   // set loading to true first time while we retrieve songs from server.
   showLoading();
 
-  Recommendations.getNextApartments()
+ Recommendations.init()
     .then(function(){
+
       $scope.currentApartment = Recommendations.queue[0];
+
       return Recommendations.playCurrentApartment();
 
     })
     .then(function(){
-      // hide loading icon after recommendations icons are called
+      // turn loading off
       hideLoading();
-      //TODO
-      $scope.currentApartment.loaded = 
-
+      $scope.currentApartment.loaded = true;
     });
 
     // fired when we favorite / skip a song.
@@ -45,6 +45,7 @@ Controller for the discover page
     Recommendations.nextApartment();
 
     $timeout(function() {
+      // $timout to allow animation to compelete
        $scope.currentApartment = Recommendations.queue[0];
 
     }, 250);

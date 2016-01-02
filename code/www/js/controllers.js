@@ -51,6 +51,13 @@ Controller for the discover page
     }, 250);
   }
 
+  $scope.nextApartmentIMG = function(){
+    if (Recommendation.queue.length > 1) {
+      return Recommendations.queue[1].image_large;
+    }
+    return '';
+  }
+
 })
 
 

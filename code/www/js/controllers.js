@@ -42,14 +42,19 @@ Controller for the discover page
     $scope.currentApartment.rated = bool;
     $scope.currentApartment.hide = true;
 
+    // prepare the next apartment
     Recommendations.nextApartment();
 
     $timeout(function() {
       // $timout to allow animation to compelete
        $scope.currentApartment = Recommendations.queue[0];
-
+       $scope.currentApartment.loaded = false;
     }, 250);
   }
+
+  Recommendations.playCurrentApartment().then(function(){
+    $scope.currentApartment.loaded =true;
+  });
 
   $scope.nextApartmentIMG = function(){
     if (Recommendation.queue.length > 1) {
@@ -58,7 +63,7 @@ Controller for the discover page
     return '';
   }
 
-})
+});
 
 
 /*

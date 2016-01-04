@@ -5,6 +5,14 @@ angular.module('refrontier.controllers', ['ionic', 'refrontier.services'])
 Controller for the discover page
 */
 .controller('DiscoverCtrl', function($scope, $ionicLoading, $timeout, User, Recommendations) {
+  Recommendations.getNextApartments()
+  .then(function() {
+    $scope.currentApartment = Recommendations.queue[0];
+    //play songs
+    Recommendations.playCurrentApartment();
+  });
+
+
   // helper functions for loading
   var showLoading = function() {
     $ionicLoading.show({
@@ -22,7 +30,6 @@ Controller for the discover page
 
  Recommendations.init()
     .then(function(){
-
       $scope.currentApartment = Recommendations.queue[0];
 
       return Recommendations.playCurrentApartment();
@@ -46,15 +53,18 @@ Controller for the discover page
     Recommendations.nextApartment();
 
     $timeout(function() {
-      // $timout to allow animation to compelete
-       $scope.currentApartment = Recommendations.queue[0];
-       $scope.currentApartment.loaded = false;
-    }, 250);
-  }
 
-  Recommendations.playCurrentApartment().then(function(){
-    $scope.currentApartment.loaded =true;
-  });
+       $scope.currentApartment = Recommendations.queue[0];
+
+
+
+      // $timout to allow animation to compelete
+       // $scope.currentApartment = Recommendations.queue[0];
+       // $scope.currentApartment.loaded = false;
+    }, 250);
+
+    Recommendations.playCurrentApartment();
+  }
 
   $scope.nextApartmentIMG = function(){
     if (Recommendation.queue.length > 1) {
@@ -63,7 +73,7 @@ Controller for the discover page
     return '';
   }
 
-});
+})
 
 
 /*

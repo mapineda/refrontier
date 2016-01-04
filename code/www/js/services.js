@@ -2,7 +2,8 @@ angular.module('refrontier.services', [])
 .factory('User', function() {
 
   var o = {
-    favorites: []
+    favorites: [],
+    newFavorites: 0;
   }
 
    o.addApartmentToFavorites = function(apartment) {
@@ -11,12 +12,17 @@ angular.module('refrontier.services', [])
 
     // add to favorites array
     o.favorites.unshift(apartment);
+    o.newFavorites++;
   }
 
   	o.removeApartmentFromFavorites = function(apartment, index){
   		if (!apartment) return false;
 
   		o.favorites.splice(index, 1);
+  	}
+
+  	o.favoriteCount = function() {
+  		return 0.newFavorites;
   	}
 
   return o;

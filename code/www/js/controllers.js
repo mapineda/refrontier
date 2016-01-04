@@ -8,6 +8,8 @@ Controller for the discover page
   Recommendations.getNextApartments()
   .then(function() {
     $scope.currentApartment = Recommendations.queue[0];
+    //play songs
+    Recommendations.playCurrentApartment();
   });
 
 
@@ -60,6 +62,8 @@ Controller for the discover page
        // $scope.currentApartment = Recommendations.queue[0];
        // $scope.currentApartment.loaded = false;
     }, 250);
+
+    Recommendations.playCurrentApartment();
   }
 
   $scope.nextApartmentIMG = function(){

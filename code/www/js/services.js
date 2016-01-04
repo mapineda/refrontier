@@ -28,10 +28,12 @@ angular.module('refrontier.services', [])
   return o;
 });
 
-.factory('Recommendations', function($http, SERVER) {
+.factory('Recommendations', function($http, $q, SERVER) {
 	var o = {
 		queue: []
 	};
+
+	var media;
 
 	o.getNextApartments = function(){
 		return $http({
@@ -42,14 +44,34 @@ angular.module('refrontier.services', [])
 		});
 	}
 
-	o.nextApartment = function(){
+	o.nextApartment = function() {
 		//pop index @ 0 
 		o.queue.shift();
 
+		o.haltAudio();
+
 		// low on the queue? lets fill it up
-		if (o.queue.length <= 3){
+		if (o.queue.length <= 3) {
 			o.getNextApartments();
 		}
+	}
+
+	o.playCurrentApartment = function() {
+		var defer = q.defer();
+
+		media = new Audio(o.queue[0].preview_url);
+
+		media.addEventListener("loadeddata", function() {
+			defer.resolve();
+		});
+
+		media.play();
+
+		return defer.promise; 
+	}
+
+	o.haltAudio = function() {
+		if (media) media.pause();
 	}
 
 	return o;

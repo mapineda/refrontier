@@ -3,7 +3,7 @@ angular.module('refrontier.services', [])
 
   var o = {
     favorites: [],
-    newFavorites: 0;
+    newFavorites: 0
   }
 
    o.addApartmentToFavorites = function(apartment) {
@@ -22,7 +22,7 @@ angular.module('refrontier.services', [])
   	}
 
   	o.favoriteCount = function() {
-  		return 0.newFavorites;
+  		return o.newFavorites;
   	}
 
   return o;
@@ -43,7 +43,7 @@ angular.module('refrontier.services', [])
 	}
 
 	o.nextApartment = function(){
-		//pop the index 0 off
+		//pop index @ 0 
 		o.queue.shift();
 
 		// low on the queue? lets fill it up

@@ -70,6 +70,7 @@ Controller for the discover page
 Controller for the favorites page
 */
 .controller('FavoritesCtrl', function($scope, User) {
+
   $scope.favorites = User.favorites;
 
   $scope.removeApartment = function(apartment, index) {
@@ -82,6 +83,14 @@ Controller for the favorites page
 /*
 Controller for our tab bar
 */
-.controller('TabsCtrl', function($scope) {
+.controller('TabsCtrl', function($scope, User, Reccomendations) {
+  $scope.enteringFavorites = function(){
+    User.newFavorites = 0;
+  }
+
+  $scope.leavingFavorites = function(){
+    Recommendations.init();
+  }
+  $scope.favCount = User.favoriteCount
 
 });

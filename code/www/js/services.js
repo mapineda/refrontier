@@ -1,5 +1,5 @@
-angular.module('refrontier.services', [])
-.factory('User', function($http, SERVER) {
+angular.module('refrontier.services', ['ionic.utils'])
+.factory('User', function($http, $q, $localstorage, SERVER) {
 
   var o = {
   	username: false,
@@ -18,6 +18,46 @@ angular.module('refrontier.services', [])
   		}
 
   		return $http.post(SERVER.url + '/' + authRoute, { username: username })
+  			.success(function(data) {
+  				o.setSession(data.username, data.session_id, data.favorites);
+  			});
+  	}
+
+  	o.setSession = function(username, session_id, favorites) {
+  		if (username) o.username = username;
+  		if (session_id) o.session_id = session_id;
+  		if (favorites) o.favorites = favorites;
+
+  		$localstorage.setObject('user', {username: username, session_id: session_id});
+  	}
+
+  	o.checkSession = function() {
+  		var defer = $q.defer();
+
+  		if(o.session_id) {
+  			defer.resolve(true);
+  		} else {
+  			var user = $localstorage.getObject('user');
+
+  			if(user.username) {
+  				o.setSession(user.username, user.session_id);
+  				o.populateFavorites().then(function() {
+  					defer.resolve(true);
+  				});
+  			} else {
+  				defer.resolve(false);
+  			}
+  		}
+
+  		return defer.promise;
+  	}
+
+  	o.destroySession = function() {
+  		$localstorage.setObject('user', {});
+  		o.username = false;
+  		o.session_id = false;
+  		o.favorites = [];
+  		o.newFavorites = 0;
   	}
 
    	o.addApartmentToFavorites = function(apartment) {

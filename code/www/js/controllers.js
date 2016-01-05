@@ -4,15 +4,7 @@ angular.module('refrontier.controllers', ['ionic', 'refrontier.services'])
 /*
 Controller for the discover page
 */
-.controller('DiscoverCtrl', function($scope, $ionicLoading, $timeout, User, Recommendations) {
-  Recommendations.getNextApartments()
-  .then(function() {
-    $scope.currentApartment = Recommendations.queue[0];
-    //play songs
-    Recommendations.playCurrentApartment();
-  });
-
-
+.controller('DiscoverCtrl', function($scope, $timeout,  $ionicLoading, User, Recommendations) {
   // helper functions for loading
   var showLoading = function() {
     $ionicLoading.show({
@@ -29,13 +21,11 @@ Controller for the discover page
   showLoading();
 
  Recommendations.init()
-    .then(function(){
+    .then(function() {
       $scope.currentApartment = Recommendations.queue[0];
-
       return Recommendations.playCurrentApartment();
-
     })
-    .then(function(){
+    .then(function() {
       // turn loading off
       hideLoading();
       $scope.currentApartment.loaded = true;
@@ -56,14 +46,11 @@ Controller for the discover page
 
        $scope.currentApartment = Recommendations.queue[0];
 
-
-
-      // $timout to allow animation to compelete
-       // $scope.currentApartment = Recommendations.queue[0];
-       // $scope.currentApartment.loaded = false;
     }, 250);
 
-    Recommendations.playCurrentApartment();
+    Recommendations.playCurrentApartment().then(function() {
+      $scope.currentApartment.loaded = true;
+    });
   }
 
   $scope.nextApartmentIMG = function(){
@@ -101,6 +88,6 @@ Controller for our tab bar
   $scope.leavingFavorites = function(){
     Recommendations.init();
   }
-  $scope.favCount = User.favoriteCount
+  $scope.favCount = User.favoriteCount;
 
 });

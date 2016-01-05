@@ -1,24 +1,48 @@
 angular.module('refrontier.services', [])
-.factory('User', function() {
+.factory('User', function($http, SERVER) {
 
   var o = {
+  	username: false,
+  	session_id: false, //should expire after x amount of days
     favorites: [],
     newFavorites: 0
   }
 
-   o.addApartmentToFavorites = function(apartment) {
+  	o.auth = function(username, signingUp) {
+  		var authRoute;
+
+  		if (signingUp) {
+  			authRoute = 'signup';
+  		} else {
+  			authRoute = 'login';
+  		}
+
+  		return $http.post(SERVER.url + '/' + authRoute, { username: username })
+  	}
+
+   	o.addApartmentToFavorites = function(apartment) {
     // make sure there's a song to add
-    if (!apartment) return false;
+    	if (!apartment) return false;
 
     // add to favorites array
-    o.favorites.unshift(apartment);
-    o.newFavorites++;
+    	o.favorites.unshift(apartment);
+   		o.newFavorites++;
+
+    	return $http.post(SERVER.url + '/favorites', {session_id: o.session_id, song_id: apartment.song_id});
   }
 
   	o.removeApartmentFromFavorites = function(apartment, index){
   		if (!apartment) return false;
 
   		o.favorites.splice(index, 1);
+
+  		return $http({
+  			method: 'DELETE',
+  			url: SERVER.url + '/favorites',
+  			params: {session_id: o.session_id, song_id: apartment.song_id}
+  		})
+
+
   	}
 
   	o.favoriteCount = function() {

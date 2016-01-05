@@ -22,17 +22,27 @@ angular.module('refrontier.services', [])
 
    	o.addApartmentToFavorites = function(apartment) {
     // make sure there's a song to add
-    if (!apartment) return false;
+    	if (!apartment) return false;
 
     // add to favorites array
-    o.favorites.unshift(apartment);
-    o.newFavorites++;
+    	o.favorites.unshift(apartment);
+   		o.newFavorites++;
+
+    	return $http.post(SERVER.url + '/favorites', {session_id: o.session_id, song_id: apartment.song_id});
   }
 
   	o.removeApartmentFromFavorites = function(apartment, index){
   		if (!apartment) return false;
 
   		o.favorites.splice(index, 1);
+
+  		return $http({
+  			method: 'DELETE',
+  			url: SERVER.url + '/favorites',
+  			params: {session_id: o.session_id, song_id: apartment.song_id}
+  		})
+
+
   	}
 
   	o.favoriteCount = function() {

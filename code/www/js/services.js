@@ -1,12 +1,26 @@
 angular.module('refrontier.services', [])
-.factory('User', function() {
+.factory('User', function($http, SERVER) {
 
   var o = {
+  	username: false,
+  	session_id: false, //should expire after x amount of days
     favorites: [],
     newFavorites: 0
   }
 
-   o.addApartmentToFavorites = function(apartment) {
+  	o.auth = function(username, signingUp) {
+  		var authRoute;
+
+  		if (signingUp) {
+  			authRoute = 'signup';
+  		} else {
+  			authRoute = 'login';
+  		}
+
+  		return $http.post(SERVER.url + '/' + authRoute, { username: username })
+  	}
+
+   	o.addApartmentToFavorites = function(apartment) {
     // make sure there's a song to add
     if (!apartment) return false;
 

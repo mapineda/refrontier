@@ -92,6 +92,14 @@ Controller for our tab bar
 
 })
 
-.controller('SplashCtrl', function($scope) {
+.controller('SplashCtrl', function($scope, $state, User) {
+  $scope.submitForm = function(username, signingUp) {
+    User.auth(username, signingUp).then(function() {
+      $state.go('tab.discover');
+    }, function() {
+      alert('Hmmm...try another username');
+    })
+
+  }
 
 });

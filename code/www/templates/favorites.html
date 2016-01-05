@@ -3,7 +3,7 @@
   <ion-content>
 
     <ion-list>
-      <ion-item ng-repeat='apartment in favorites' class="item-avatar">
+      <ion-item ng-repeat='apartment in favorites' class="item-avatar" ng-click ="openApartment" >
         <img ng-src="{{ apartment.image_small }}">
         <h2>{{ apartment.name }}</h2>
         <p>{{ apartment.description }}</p>

@@ -9,8 +9,8 @@
       </div>
 
       <div class="item">
-        <h2>{{ currentApartment.name }}</h2>
-        <p>{{ currentApartment.description }}</p>
+        <h2>{{ currentApartment.title }}</h2>
+        <p>{{ currentApartment.artist }}</p>
       </div>
 <!--       send feedback -->
       <div class="item tabs tabs-secondary tabs-icon-left">
@@ -22,6 +22,10 @@
           <i class="icon ion-heart"></i>
           Favorite
         </a>
+      </div>
+
+      <div class="img-lookahead">
+        <img ng-src="{{ nextApartmentImg() }}" />
       </div>
 
 

@@ -90,4 +90,8 @@ Controller for our tab bar
   }
   $scope.favCount = User.favoriteCount;
 
+})
+
+.controller('SplashCtrl', function($scope) {
+
 });

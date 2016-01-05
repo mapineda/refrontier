@@ -26,7 +26,7 @@ angular.module('refrontier.services', [])
   	}
 
   return o;
-});
+})
 
 .factory('Recommendations', function($http, $q, SERVER) {
 	var o = {
@@ -35,7 +35,15 @@ angular.module('refrontier.services', [])
 
 	var media;
 
-	o.getNextApartments = function(){
+	o.init = function() {
+		if (o.queue.length === 0) {
+			return o.getNextApartments;
+		} else {
+			return o.playCurrentApartment();
+		}
+	}
+
+	o.getNextApartments = function() {
 		return $http({
 			method: 'GET',
 			url: SERVER.url + '/recommendations'

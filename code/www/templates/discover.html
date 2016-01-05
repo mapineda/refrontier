@@ -4,13 +4,13 @@
 
     <div class="list card current-apartment" ng-class="{skipped: currentApartment.rated == false, favorited: currentApartment.rated == true}" ng-show="currentApartment && !currentApartment.hide">
 
-      <div class="item item-image img-lookahead">
+      <div class="item item-image">
         <img ng-src="{{ currentApartment.image_large }}">
       </div>
 
       <div class="item">
-        <h2>{{ currentApartment.name }} <span ng-hide="currentApartment.loaded"><i class='ion-loading-c'></i></span></h2>
-        <p>{{ currentApartment.description }}</p>
+        <h2>{{ currentApartment.title }} <span ng-hide="currentApartment.loaded"><i class='ion-loading-c'></i></span></h2>
+        <p>{{ currentApartment.artist }}</p>
       </div>
 <!--       send feedback -->
       <div class="item tabs tabs-secondary tabs-icon-left">

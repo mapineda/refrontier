@@ -32,6 +32,7 @@ angular.module('refrontier.services', [])
 			method: 'GET',
 			url: SERVER.url + '/recommendations'
 		}).success(function(data) {
+			// merge data into queue
 			o.queue = o.queue.concat(data);
 		});
 	}

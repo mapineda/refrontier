@@ -1,10 +1,8 @@
 angular.module('refrontier.controllers', ['ionic', 'refrontier.services'])
 
 
-/*
-Controller for the discover page
-*/
-.controller('DiscoverCtrl', function($scope, $timeout) {
+/* Controller for the discover page */
+.controller('DiscoverCtrl', function($scope, $timeout, User) {
 	// adding first three apartments
 	  $scope.apartments = [
      {
@@ -56,17 +54,14 @@ Controller for the discover page
 })
 
 
-/*
-Controller for the favorites page
-*/
-.controller('FavoritesCtrl', function($scope) {
+/* Controller for the favorites page */
+.controller('FavoritesCtrl', function($scope, User) {
+  $scope.favorites = User.favorites;
 
 })
 
 
-/*
-Controller for our tab bar
-*/
+/* Controller for our tab bar */
 .controller('TabsCtrl', function($scope) {
 
 });

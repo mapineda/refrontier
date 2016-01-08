@@ -1,74 +1,133 @@
-angular.module('refrontier.controllers', ['ionic', 'refrontier.services'])
+angular.module('songhop.controllers', ['ionic', 'songhop.services'])
 
 
-/* Controller for the discover page */
-.controller('DiscoverCtrl', function($scope, $timeout, User) {
-	// adding first three apartments
-	  $scope.apartments = [
-     {
-        "name":"Whitley",
-        "description":"Luxury",
-//         "Address":"301 Brazos St
-// Austin, TX  78701",
-        "image_small":"http://s3-media4.fl.yelpcdn.com/bphoto/QEbK7NE8sUnr4cbC6TUxqg/ls.jpg",
-        "image_large":"http://cdn11.g5search.com/assets/283943/huge-roof-top-terrace-and-swimming-pool-at-apartments-in-austin.jpg?1407280878"
-     },
-     {
-        "name":"AMLI Downtown",
-        "description":"Luxury",
-        // "Address":"201 Lavaca St, Austin, TX 78701"
+/*
+Controller for the discover page
+*/
+.controller('DiscoverCtrl', function($scope, $timeout, $ionicLoading, User, Recommendations) {
+// helper functions for loading
+  var showLoading = function() {
+    $ionicLoading.show({
+      template: '<i class="ion-loading-c"></i>',
+      noBackdrop: true
+    });
+  }
 
-        "image_small":"http://www.amli.com/AMLIContent/Files/apartments/austin/300/apartment-interior/300-apartment-interior-living-room1.jpg.ashx??w=320&h=237",
-        "image_large":"http://www.benkendorfer-associates.com/_assets/img/work/multifamily/AmliDowntown-1.jpg"
-     },
-     {
-        "name":"The Catherine",
-        "description":"Luxury",
-        // "Address":"214 Barton Springs Road, TX 78704"
+  var hideLoading = function() {
+    $ionicLoading.hide();
+  }
 
-        "image_small":"http://thecatherineaustin.com/assets/images/rendering-wide.jpg",
-        "image_large":"http://thecatherineaustin.com/assets/images/rendering-wide-2.jpg"
-     }
-  ];
+  // set loading to true first time while we retrieve songs from server.
+  showLoading();
+// get our first songs
+ Recommendations.init()
+    .then(function(){
 
-  $scope.currentApartment = angular.copy($scope.apartments[0]);
+      $scope.currentSong = Recommendations.queue[0];
 
-    // fired when we favorite / skip a song.
- 	$scope.sendFeedback = function(bool) {
+      return Recommendations.playCurrentSong();
 
-    if (bool) User.addApartmentToFavorites($scope.currentApartment); 
+    })
+    .then(function(){
+      // turn loading off
+      hideLoading();
+      $scope.currentSong.loaded = true;
+    });
+
+   // fired when we favorite / skip a song.
+   $scope.sendFeedback = function (bool) {
+   	// first, add to favorites if they favorited
+    if (bool) User.addSongToFavorites($scope.currentSong);
 
     // set variable for the correct animation sequence
-    $scope.currentApartment.rated = bool;
-    $scope.currentApartment.hide = true;
+    $scope.currentSong.rated = bool;
+    $scope.currentSong.hide = true;
+
+     // prepare the next song
+    Recommendations.nextSong();
 
     $timeout(function() {
-      // $timeout to allow animation to complete before changing to next song
-      // set the current song to one of our three songs
-      var randomApartment = Math.round(Math.random() * ($scope.apartments.length - 1));
-
-      // update current song in scope
-      $scope.currentApartment = angular.copy($scope.apartments[randomApartment]);
-
+      // $timeout to allow animation to complete
+      $scope.currentSong = Recommendations.queue[0];
+      $scope.currentSong.loaded = false;
     }, 250);
+
+    Recommendations.playCurrentSong().then(function() {
+      $scope.currentSong.loaded = true;
+    })
+
+  }
+
+  $scope.nextAlbumImage = function() {
+  	if (Recommendations.queue.length > 1) {
+  		return Recommendations.queue[1].image_large;
+  	}
+
+  	return '';
   }
 
 })
 
 
-/* Controller for the favorites page */
+/*
+Controller for the favorites page
+*/
 .controller('FavoritesCtrl', function($scope, User) {
-  $scope.favorites = User.favorites;
+	// get the list of our favorites from the user service
+	$scope.favorites = User.favorites;
+	$scope.username = User.username;
 
-  $scope.removeApartment = function(apartment, index) {
-    User.removeApartmentFromFavorites(apartment, index); 
+	$scope.removeSong = function(song, index) {
+    	User.removeSongFromFavorites(song, index);
+  }
 
+  $scope.openSong = function(song) {
+    $window.open(song.open_url, "_system");
   }
 
 })
 
 
-/* Controller for our tab bar */
-.controller('TabsCtrl', function($scope) {
+/*
+Controller for our tab bar
+*/
+.controller('TabsCtrl', function($scope, $window, User, Recommendations) {
+// stop audio when going to favorites page
+$scope.enteringFavorites = function() {
+    Recommendations.haltAudio();
+    User.newFavorites = 0;
+  }
+
+$scope.leavingFavorites = function() {
+    Recommendations.init();
+  }
+
+  $scope.logout = function() {
+  	User.destroySession();
+
+  	// instead of using $state.go, we're going to redirect.
+    // reason: we need to ensure views aren't cached.
+    $window.location.href = 'index.html';
+
+
+  } 
+
+  // expose the number of new favorites to the scope
+  $scope.favCount = User.favoriteCount;
+
+})
+
+.controller('SplashCtrl', function($scope, $state, User) {
+	// attempt to signup/login via User.auth
+  $scope.submitForm = function(username, signingUp) {
+    User.auth(username, signingUp).then(function() {
+      // session is now set, so lets redirect to discover page
+      $state.go('tab.discover');
+
+    }, function() {
+      // error handling here
+      alert('Hmmm... try another username.');
+    });
+  }
 
 });

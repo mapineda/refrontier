@@ -2,7 +2,7 @@
 
 UX Design Meets Apartment hunting
 
-##  Tech Used ## 
+##  Tech Used ##
 
 - HTML
 - CSS

@@ -1,6 +1,6 @@
 # Refrontier #
 
-UX Design Meets Apartment hunting
+UX Design Meets Apartment hunting.
 
 ##  Tech Used ##
 

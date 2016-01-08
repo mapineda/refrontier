@@ -1,8 +1,8 @@
-## Refrontier ##
+# Refrontier #
 
 UX Design Meets Apartment hunting
 
-# Tech Used #
+##  Tech Used ## 
 
 - HTML
 - CSS
@@ -14,8 +14,8 @@ UX Design Meets Apartment hunting
 - Mongo
 - Node
 
-# Getting Started #
+## Getting Started ##
 
-# Contact #
+## Contact ##
 
 refrontier@marcopineda.com

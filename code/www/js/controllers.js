@@ -60,6 +60,11 @@ angular.module('refrontier.controllers', ['ionic', 'refrontier.services'])
 .controller('FavoritesCtrl', function($scope, User) {
   $scope.favorites = User.favorites;
 
+  $scope.removeApartment = function(apartment, index) {
+    User.removeApartmentFromFavorites(apartment, index); 
+
+  }
+
 })
 
 

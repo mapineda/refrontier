@@ -1,4 +1,4 @@
-angular.module('songhop.services', ['ionic.utils'])
+angular.module('refrontier.services', ['ionic.utils'])
 
 .factory('User', function($http, $q, $localstorage, SERVER) {
 	var o = {
@@ -74,21 +74,21 @@ angular.module('songhop.services', ['ionic.utils'])
 		o.newFavorites = 0;
 	}
 
-	o.addSongToFavorites = function(song) {
+	o.addApartmentToFavorites = function(apartment) {
    	 	// make sure there's a song to add
-    	if (!song) return false;
+    	if (!apartment) return false;
 
     	// add to favorites to front of array because you want the song to display at the top
-    	o.favorites.unshift(song);
+    	o.favorites.unshift(apartment);
     	o.newFavorites++;
 
 	    // persist this to the server
-	    return $http.post(SERVER.url + '/favorites', {session_id: o.session_id, song_id:song.song_id });
+	    return $http.post(SERVER.url + '/favorites', {session_id: o.session_id, song_id:apartment.song_id });
   }
 
-	o.removeSongFromFavorites = function(song, index) {
+	o.removeApartmentFromFavorites = function(apartment, index) {
    		// make sure there's a song to add
-    	if (!song) return false;
+    	if (!apartment) return false;
 
     	// add to favorites array
     	o.favorites.splice(index, 1);
@@ -134,15 +134,15 @@ angular.module('songhop.services', ['ionic.utils'])
     if (o.queue.length === 0) {
       // if there's nothing in the queue, fill it.
       // this also means that this is the first call of init.
-      return o.getNextSongs();
+      return o.getNextApartments();
 
     } else {
       // otherwise, play the current song
-      return o.playCurrentSong();
+      return o.playCurrentApartment();
     }
   }
 
-  o.getNextSongs = function() {
+  o.getNextApartments = function() {
    	return $http({
       method: 'GET',
       url: SERVER.url + '/recommendations'
@@ -152,7 +152,7 @@ angular.module('songhop.services', ['ionic.utils'])
     });
   }
 
-   o.nextSong = function() {
+   o.nextApartment = function() {
     // pop the index 0 off
     o.queue.shift();
 
@@ -160,12 +160,12 @@ angular.module('songhop.services', ['ionic.utils'])
 
     // low on the queue? lets fill it up
     if (o.queue.length <= 3) {
-      o.getNextSongs();
+      o.getNextApartments();
     }
 
   }
 
-   o.playCurrentSong = function() {
+   o.playCurrentApartment = function() {
    	var defer = $q.defer();
 
     // play the current song's preview

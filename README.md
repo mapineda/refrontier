@@ -1,8 +1,8 @@
-** Refrontier **
+## Refrontier ##
 
-UX Design Meets Apartment hunting
+UX Design Meets Apartment hunting built using ionic, angular, bower, nodejs, and mongolabs.
 
-* Tech Used *
+# Tech Used #
 
 HTML
 CSS
@@ -10,8 +10,8 @@ JS
 AngularJS
 Ionic
 
-* Getting Started *
+# Getting Started#
 
-* Contact *
+# Contact#
 
-hire@marcopineda.com
+refrontier@marcopineda.com

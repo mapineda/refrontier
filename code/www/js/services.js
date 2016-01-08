@@ -20,4 +20,21 @@ angular.module('refrontier.services', [])
 	}
 
 	return o;
+})
+
+.factory('Recommendations', function($http, SERVER) {
+	var o = {
+		queue: []
+	};
+
+	o.getNextApartments = function() {
+		return $http({
+			method: 'GET',
+			url: SERVER.url + '/recommendations'
+		}).success(function(data) {
+			o.queue	= o.queue.concat(data);
+		})
+	}
+
+		return o;
 });

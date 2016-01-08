@@ -1,4 +1,4 @@
-angular.module('songhop.controllers', ['ionic', 'songhop.services'])
+angular.module('refrontier.controllers', ['ionic', 'refrontier.services'])
 
 
 /*
@@ -23,37 +23,37 @@ Controller for the discover page
  Recommendations.init()
     .then(function(){
 
-      $scope.currentSong = Recommendations.queue[0];
+      $scope.currentApartment = Recommendations.queue[0];
 
-      return Recommendations.playCurrentSong();
+      return Recommendations.playCurrentApartment();
 
     })
     .then(function(){
       // turn loading off
       hideLoading();
-      $scope.currentSong.loaded = true;
+      $scope.currentApartment.loaded = true;
     });
 
    // fired when we favorite / skip a song.
    $scope.sendFeedback = function (bool) {
    	// first, add to favorites if they favorited
-    if (bool) User.addSongToFavorites($scope.currentSong);
+    if (bool) User.addApartmentToFavorites($scope.currentApartment);
 
     // set variable for the correct animation sequence
-    $scope.currentSong.rated = bool;
-    $scope.currentSong.hide = true;
+    $scope.currentApartment.rated = bool;
+    $scope.currentApartment.hide = true;
 
      // prepare the next song
-    Recommendations.nextSong();
+    Recommendations.nextApartment();
 
     $timeout(function() {
       // $timeout to allow animation to complete
-      $scope.currentSong = Recommendations.queue[0];
-      $scope.currentSong.loaded = false;
+      $scope.currentApartment = Recommendations.queue[0];
+      $scope.currentApartment.loaded = false;
     }, 250);
 
-    Recommendations.playCurrentSong().then(function() {
-      $scope.currentSong.loaded = true;
+    Recommendations.playCurrentApartment().then(function() {
+      $scope.currentApartment.loaded = true;
     })
 
   }
@@ -77,12 +77,12 @@ Controller for the favorites page
 	$scope.favorites = User.favorites;
 	$scope.username = User.username;
 
-	$scope.removeSong = function(song, index) {
-    	User.removeSongFromFavorites(song, index);
+	$scope.removeApartment = function(apartment, index) {
+    	User.removeApartmentFromFavorites(apartment, index);
   }
 
-  $scope.openSong = function(song) {
-    $window.open(song.open_url, "_system");
+  $scope.openApartment = function(apartment) {
+    $window.open(apartment.open_url, "_system");
   }
 
 })

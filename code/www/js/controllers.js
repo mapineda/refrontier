@@ -36,6 +36,8 @@ angular.module('refrontier.controllers', ['ionic', 'refrontier.services'])
     // fired when we favorite / skip a song.
  	$scope.sendFeedback = function(bool) {
 
+    if (bool) User.addApartmentToFavorites($scope.currentApartment); 
+
     // set variable for the correct animation sequence
     $scope.currentApartment.rated = bool;
     $scope.currentApartment.hide = true;

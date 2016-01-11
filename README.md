@@ -16,6 +16,10 @@ UX Design Meets Apartment hunting.
 
 ## Getting Started ##
 
+1. Clone the repo.
+2. Enter ' ionic server ' unto terminal.
+3. Be Happy
+
 ## Contact ##
 
 refrontier@marcopineda.com

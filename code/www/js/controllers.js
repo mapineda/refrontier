@@ -1,4 +1,4 @@
-angular.module('refrontier.controllers', ['ionic', 'refrontier.services'])
+angular.module('refrontier.controllers', ['ionic', 'ionic.contrib.ui.tinderCards', 'refrontier.services'])
 
 
 /*

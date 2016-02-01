@@ -15,7 +15,7 @@ angular.module('refrontier', ['ionic', 'refrontier.controllers'])
     if(window.StatusBar) {
       StatusBar.styleDefault();
     }
-    
+
 
   });
 })
@@ -84,7 +84,7 @@ angular.module('refrontier', ['ionic', 'refrontier.controllers'])
   })
   // If none of the above states are matched, use this as the fallback:
   $urlRouterProvider.otherwise('/');
-
+  
 })
 
 

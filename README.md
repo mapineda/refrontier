@@ -1,25 +1,17 @@
 # Refrontier #
 
-UX Design Meets Apartment hunting.
+Fitness App for the American Hero
 
 ##  Tech Used ##
 
-- HTML
-- CSS
-- Bootstrap
-- Webkit
-- JavaScript
-- Angular
-- Ionic
-- Mongo
-- Node
+- Python
+- Flask
+- React
+- Docker
 
 ## Getting Started ##
 
-1. Clone the repo.
-2. Enter ' ionic server ' unto terminal.
-3. Be Happy
 
 ## Contact ##
 
-refrontier@marcopineda.com
+me@marcopineda.com

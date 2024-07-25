@@ -1,0 +1,8 @@
+Flask
+Flask-SQLAlchemy==3.0.3
+flask_bcrypt
+flask_jwt_extended
+pymysql
+psycopg2-binary==2.9.6
+python_dotenv
+gunicorn==20.1.0

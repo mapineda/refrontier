@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./clay/
+    entrypoint: /app/entrypoint.sh
+    command: python wsgi.py
+    ports:
+      - "5001:5001"
+    env_file:
+      - ./clay/.env.dev
+    volumes:
+      - ./clay:/app
+    depends_on:
+      - db
+
+  # frontend:
+  #   build: ./brick
+  #   ports:
+  #     - "3000:3000"
+  #   environment:
+  #     NODE_ENV: development
+  #   volumes:
+  #     - ./brick:/app
+  #   stdin_open: true
+  #   tty: true
+
+  db:
+    image: postgres:13
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=hello_flask
+      - POSTGRES_PASSWORD=hello_flask
+      - POSTGRES_DB=refrontier
+
+volumes:
+  postgres_data:
+

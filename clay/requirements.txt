@@ -1,6 +1,7 @@
 Flask
 Flask-SQLAlchemy==3.0.3
 flask_bcrypt
+flask_migrate
 flask_jwt_extended
 pymysql
 psycopg2-binary==2.9.6

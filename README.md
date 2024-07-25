@@ -21,6 +21,11 @@ Fitness App for the American Hero
 - `docker-compose exec backend python manage.py seed_db` 
 - navigate to `http://127.0.0.1:5001/`
 
+#### Routes
+
+`http://127.0.0.1:5001/api/check_db`
+`http://127.0.0.1:5001/auth/signup`
+
 
 #### Docker Commands
 

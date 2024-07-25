@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from .models import db, User, Calculation
+from sqlalchemy.exc import IntegrityError
 
 resources_bp = Blueprint('resources', __name__)
 
@@ -44,12 +45,13 @@ def calculate():
     age = data.get('age')
     gender = data.get('gender')
     activity_level = data.get('activity_level')
+    goal_weight = data.get('goal_weight')
 
     if not all([current_weight, height, age, gender, activity_level]):
         return jsonify(message="Missing required parameters"), 400
 
     # Example calculation for BMI
-    bmi = current_weight / ((height / 100) ** 2)
+    bmi = current_weight / (height ** 2)
     
     # Example calculation for maintenance calories
     if gender == 'male':
@@ -72,6 +74,7 @@ def calculate():
     calculation = Calculation(
         user_id=user_id,
         current_weight=current_weight,
+        goal_weight=goal_weight,
         height=height,
         age=age,
         gender=gender,
@@ -88,6 +91,6 @@ def calculate():
         return jsonify(message="Error saving calculation"), 500
 
     return jsonify(
-        bmi=bmi,
+        bmi=round(bmi),
         maintenance_calories=maintenance_calories
     ), 200

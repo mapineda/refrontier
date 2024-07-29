@@ -15,3 +15,7 @@ build/
 
 *.env.dev
 *.env.prod
+
+*.node_modules
+
+.package-lock.json

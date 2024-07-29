@@ -14,16 +14,16 @@ services:
     depends_on:
       - db
 
-  # frontend:
-  #   build: ./brick
-  #   ports:
-  #     - "3000:3000"
-  #   environment:
-  #     NODE_ENV: development
-  #   volumes:
-  #     - ./brick:/app
-  #   stdin_open: true
-  #   tty: true
+  frontend:
+    build: ./brick
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: development
+    volumes:
+      - ./brick:/app
+    stdin_open: true
+    tty: true
 
   db:
     image: postgres:13

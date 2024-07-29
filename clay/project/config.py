@@ -1,30 +1,22 @@
 import os
 
-basedir = os.path.abspath(os.path.dirname(__file__))
-
-
-class Config(object):
-    SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL", "sqlite://")
+class Config:
+    SECRET_KEY = os.getenv('SECRET_KEY', 'default_secret_key')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    STATIC_FOLDER = f"{os.getenv('APP_FOLDER')}/project/static"
-    JWT_SECRET_KEY = os.getenv('JWT_SECRET_KEY', 'your-secret-key')
-
-
+    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', 'postgresql://user:password@db:5432/mydatabase')
 
 class DevelopmentConfig(Config):
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL", "sqlite://")
 
-
-class StagingConfig(Config):
-    TESTING = True
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'sqlite:///staging.db'
-
+class ProductionConfig(Config):
+    DEBUG = False
 
 class TestingConfig(Config):
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'sqlite:///test.db'
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///test.db'
 
-
-class ProductionConfig(Config):
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'mysql+pymysql://username:password@hostname/prod_db'
+config_by_name = dict(
+    dev=DevelopmentConfig,
+    test=TestingConfig,
+    prod=ProductionConfig
+)

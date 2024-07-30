@@ -1,5 +1,6 @@
 Flask
 Flask-SQLAlchemy==3.0.3
+Flask-Cors
 flask_bcrypt
 flask_migrate
 flask_jwt_extended

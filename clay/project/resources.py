@@ -5,6 +5,7 @@ from sqlalchemy.exc import IntegrityError
 
 resources_bp = Blueprint('resources', __name__)
 
+
 @resources_bp.route('/')
 def home():
     return jsonify(hello="world")
@@ -27,6 +28,7 @@ def get_users():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+
 @resources_bp.route('/profile', methods=['GET'])
 @jwt_required()
 def profile():
@@ -36,29 +38,40 @@ def profile():
         return jsonify(email=user.email, id=user.id), 200
     return jsonify(message="User not found"), 404
 
+
 @resources_bp.route('/calculate', methods=['POST'])
-@jwt_required()
+# @jwt_required()
 def calculate():
     data = request.get_json()
-    current_weight = data.get('current_weight')
-    height = data.get('height')
+    print(data)
+    current_weight = data.get('current_weight') # kg
+    height = data.get('height') # cm
     age = data.get('age')
     gender = data.get('gender')
     activity_level = data.get('activity_level')
-    goal_weight = data.get('goal_weight')
 
+       # Convert to appropriate types
+    try:
+        current_weight = float(current_weight)
+        height = float(height) / 100  # Convert cm to meters
+        age = int(age)
+    except ValueError:
+        return jsonify({"error": "Invalid input types"}), 400
+    
+    # validate
     if not all([current_weight, height, age, gender, activity_level]):
         return jsonify(message="Missing required parameters"), 400
 
     # Example calculation for BMI
     bmi = current_weight / (height ** 2)
+    brm = 0
     
-    # Example calculation for maintenance calories
+   # Estimate BMR (Basal Metabolic Rate) using Mifflin-St Jeor Equation
     if gender == 'male':
-        bmr = 88.362 + (13.397 * current_weight) + (4.799 * height) - (5.677 * age)
+        bmr = 10 * current_weight + 6.25 * height * 100 + 5 * age + 5  # height converted back to cm
     else:
-        bmr = 447.593 + (9.247 * current_weight) + (3.098 * height) - (4.330 * age)
-
+        bmr = 10 * current_weight + 6.25 * height * 100 - 5 * age - 161  # height converted back to cm
+    
     activity_multiplier = {
         'sedentary': 1.2,
         'lightly active': 1.375,
@@ -70,27 +83,28 @@ def calculate():
     maintenance_calories = bmr * activity_multiplier.get(activity_level, 1.2)
 
     # Save calculation to the database
-    user_id = get_jwt_identity()
-    calculation = Calculation(
-        user_id=user_id,
-        current_weight=current_weight,
-        goal_weight=goal_weight,
-        height=height,
-        age=age,
-        gender=gender,
-        activity_level=activity_level,
-        bmi=bmi,
-        maintenance_calories=maintenance_calories
-    )
+    # user_id = get_jwt_identity()
+    # calculation = Calculation(
+    #     user_id=user_id,
+    #     current_weight=current_weight,
+    #     goal_weight=goal_weight,
+    #     height=height,
+    #     age=age,
+    #     gender=gender,
+    #     activity_level=activity_level,
+    #     bmi=bmi,
+    #     maintenance_calories=maintenance_calories
+    # )
 
-    try:
-        db.session.add(calculation)
-        db.session.commit()
-    except IntegrityError:
-        db.session.rollback()
-        return jsonify(message="Error saving calculation"), 500
+    # try:
+    #     db.session.add(calculation)
+    #     db.session.commit()
+    # except IntegrityError:
+    #     db.session.rollback()
+    #     return jsonify(message="Error saving calculation"), 500
 
     return jsonify(
         bmi=round(bmi),
+        bmr=round(brm),
         maintenance_calories=maintenance_calories
     ), 200

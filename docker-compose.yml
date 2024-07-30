@@ -15,15 +15,20 @@ services:
       - db
 
   frontend:
-    build: ./brick
+    build:
+      context: ./brick
+      dockerfile: Dockerfile
+    container_name: frontend
     ports:
       - "3000:3000"
-    environment:
-      NODE_ENV: development
     volumes:
       - ./brick:/app
+    environment:
+      NODE_ENV: development
     stdin_open: true
     tty: true
+    depends_on:
+      - backend
 
   db:
     image: postgres:13

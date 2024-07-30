@@ -16,6 +16,12 @@ const Form = () => {
     activity_level: 'sedentary',
   });
 
+  const [responseData, setResponseData] = useState({
+    bmi: '',
+    bmr: '',
+    maintenance_colories: '',
+  })
+ 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prevData => ({ ...prevData, [name]: value }));
@@ -24,13 +30,15 @@ const Form = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('/api/calculate', formData, {
+      const response = await axios.post('http://127.0.0.1:5001/api/calculate', formData, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+          'Content-Type': 'application/json'
+          // Authorization: `Bearer ${localStorage.getItem('access_token')}`,
         },
       });
       console.log('Response:', response.data);
       setResults(true);
+      setResponseData(response.data);
     } catch (error) {
       console.error('Error submitting form:', error);
     }
@@ -69,7 +77,7 @@ const Form = () => {
           Calculate
         </button>
       </form>
-      {showResults && <Results />}
+      {showResults && <Results result={responseData}/>}
     </div>
   );
 };

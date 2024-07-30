@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+
 
 const Results = ({ result }) => {
   const [email, setEmail] = useState('');
@@ -6,10 +8,25 @@ const Results = ({ result }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    let data = {
+      "email": email,
+      "results": result
+    }
+    const response = await axios.post('http://127.0.0.1:5001/api/email_results', data, {
+      headers: {
+        'Content-Type': 'application/json'
+        // Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+      },
+    });
+    try {
     // Here, you would typically send a request to your backend
     // For now, we'll just simulate a successful submission
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    // await new Promise(resolve => setTimeout(resolve, 1000));
     setSubmitted(true);
+    console.log('Response:', response.data);
+    } catch (error) {
+      console.error('Error submitting form:', error);
+    }
   };
 
   return (

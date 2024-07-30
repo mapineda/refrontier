@@ -1,7 +1,13 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
+from flask_mail import Message
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import letter
+from io import BytesIO
 from .models import db, User, Calculation
 from sqlalchemy.exc import IntegrityError
+from project import mail
+import json
 
 resources_bp = Blueprint('resources', __name__)
 
@@ -108,3 +114,55 @@ def calculate():
         bmr=round(brm),
         maintenance_calories=maintenance_calories
     ), 200
+
+
+@resources_bp.route('/email_results', methods=['POST'])
+def email_results():
+    data = request.json
+    print(data)
+    email = data.get('email')
+    results = data.get('results')
+
+    if not email or not results:
+        return jsonify({'error': 'Email and results are required'}), 400
+    
+    # generate pdfs
+
+    # send mail
+    try:
+        msg = Message('Your Results',
+                      sender='noreply@yourdomain.com',
+                      recipients=[email])
+        msg.body = 'Please find your results attached.'
+        # msg.attach('results.pdf', 'application/pdf', pdf.getvalue())
+        print('sending mail')
+        mail.send(msg)
+        print('sent mail')
+        return jsonify({'message': 'Results sent successfully'}), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+def generate_pdf(results):
+    buffer = BytesIO()
+    p = canvas.Canvas(buffer, pagesize=letter)
+    width, height = letter
+
+    # Add a title
+    p.setFont("Helvetica-Bold", 16)
+    p.drawString(50, height - 50, "Your Results")
+
+    # Add the results
+    p.setFont("Helvetica", 12)
+    y = height - 80
+    for line in json.dumps(results, indent=2).split('\n'):
+        p.drawString(50, y, line)
+        y -= 15
+        if y < 50:  # Start a new page if we're near the bottom
+            p.showPage()
+            y = height - 50
+
+    p.showPage()
+    p.save()
+    buffer.seek(0)
+    return buffer

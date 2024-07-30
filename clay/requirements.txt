@@ -4,7 +4,10 @@ Flask-Cors
 flask_bcrypt
 flask_migrate
 flask_jwt_extended
+flask-mail
 pymysql
 psycopg2-binary==2.9.6
 python_dotenv
 gunicorn==20.1.0
+reportlab==4.2.2
+sendgrid==6.11.0

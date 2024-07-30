@@ -3,6 +3,7 @@ from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import JWTManager
+from flask_mail import Mail
 from flask_cors import CORS
 import os
 from .config import config_by_name
@@ -11,17 +12,26 @@ db = SQLAlchemy()
 bcrypt = Bcrypt()
 jwt = JWTManager()
 cors = CORS()
+mail = Mail()
 
 def create_app():
     app = Flask(__name__)
 
     config_name = os.getenv('FLASK_ENV', 'dev')
     app.config.from_object(config_by_name[config_name])
+    app.config['MAIL_SERVER'] = 'smtp.example.com'
+    app.config['MAIL_PORT'] = 587
+    app.config['MAIL_USE_TLS'] = True
+    app.config['MAIL_USERNAME'] = 'your-email@example.com'
+    app.config['MAIL_PASSWORD'] = 'your-password'
 
     db.init_app(app)
     bcrypt.init_app(app)
     jwt.init_app(app)
+    mail.init_app(app)
     CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000"}})
+
+    
 
     migrate = Migrate(app, db)
     

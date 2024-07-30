@@ -7,9 +7,8 @@ import Results from './Results';
 const Form = () => {
   const [showResults, setResults] = useState(false);
   const [formData, setFormData] = useState({
-    email: '',
-    password: '',
     current_weight: '',
+    goal_weight: '',
     height: '',
     age: '',
     gender: 'male',
@@ -36,7 +35,6 @@ const Form = () => {
           // Authorization: `Bearer ${localStorage.getItem('access_token')}`,
         },
       });
-      console.log('Response:', response.data);
       setResults(true);
       setResponseData(response.data);
     } catch (error) {
@@ -47,11 +45,10 @@ const Form = () => {
   return (
     <div className="max-w-md mx-auto">
       <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-        {/* <InputField type="email" name="email" value={formData.email} onChange={handleChange} placeholder="Email" /> */}
-        {/* <InputField type="password" name="password" value={formData.password} onChange={handleChange} placeholder="Password" /> */}
-        <InputField type="number" name="current_weight" value={formData.current_weight} onChange={handleChange} placeholder="Current Weight (kg)" />
-        <InputField type="number" name="height" value={formData.height} onChange={handleChange} placeholder="Height (cm)" />
-        <InputField type="number" name="age" value={formData.age} onChange={handleChange} placeholder="Age" />
+        <InputField type="text" name="current_weight" value={formData.current_weight} onChange={handleChange} placeholder="Current Weight (kg)" />
+        <InputField type="text" name="goal_weight" value={formData.goal_weight} onChange={handleChange} placeholder="Goal Weight (kg)" />
+        <InputField type="text" name="height" value={formData.height} onChange={handleChange} placeholder="Height (cm)" />
+        <InputField type="text" name="age" value={formData.age} onChange={handleChange} placeholder="Age" />
         <SelectField
           name="gender"
           value={formData.gender}
